@@ -11,11 +11,6 @@ from helpers import get_valid_password_value
 #########
 
 
-@given("a freshly started server")
-def step_restart_server(context):
-    context.client.restart()
-
-
 @given("{hash_count} hashes have been successfully created")
 def step_create_hashes(context, hash_count):
     create_hashes(context.client, int(hash_count))
