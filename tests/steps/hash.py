@@ -7,6 +7,8 @@ from helpers import (
     hash_from,
     validate_response_status,
     validate_sha512_base64_hash,
+    get_job_ids_for_newly_created_hashes,
+    get_valid_password_value,
 )
 
 #########
@@ -17,15 +19,6 @@ from helpers import (
 @given("a valid password value")
 def step_get_valid_password_value(context):
     context.password = get_valid_password_value()
-
-
-password_count = 0
-
-
-def get_valid_password_value():
-    global password_count
-    password_count += 1
-    return f"unique-valid-password-value-{password_count}"
 
 
 @given("a job ID for a newly created hash")
@@ -67,10 +60,6 @@ def step_get_job_ids_for_two_hashes(context):
     context.job_ids = get_job_ids_for_newly_created_hashes(
         context.client, 2, context.password
     )
-
-
-def get_job_ids_for_newly_created_hashes(client, hashes_count, password):
-    return [job_id_from(client.create_hash(password)) for _ in range(hashes_count)]
 
 
 ########

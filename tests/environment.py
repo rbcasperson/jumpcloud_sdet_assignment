@@ -14,4 +14,4 @@ def before_all(context):
 
 
 def after_all(context):
-    context.client.shut_down()
+    context.client.stop()
