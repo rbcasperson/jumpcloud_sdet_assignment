@@ -13,6 +13,8 @@ I have left that test case failing,
 tagged the test as `@quarantined` to demonstrate that the test is broken due to a bug,
 and linked the bug's identifier on the test case.
 
+Details on the bugs I've found are documented [here](./BUGS.md).
+
 ### My Approach
 
 I want to highlight a couple things in regard to my approach to testing this application,
