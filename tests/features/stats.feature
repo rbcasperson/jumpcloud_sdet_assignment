@@ -4,6 +4,7 @@ Feature: Stats
   Background:
     Given a freshly started server
 
+  @positive
   Scenario Outline: Statistics can be retrieved and are accurate
     And <hash-count> hashes have been successfully created
     When hash statistics are gathered
@@ -17,6 +18,7 @@ Feature: Stats
       | 10         |
 
   @quarantined @BUG-2
+  @positive  
   Scenario Outline: The average time to create a hash is recorded accurately
     Given the average time for creating <hash-count> hashes
     When hash statistics are gathered
