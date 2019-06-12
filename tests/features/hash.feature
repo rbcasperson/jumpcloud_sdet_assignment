@@ -27,3 +27,27 @@ Feature: Hash
     Given a valid password value
     When two separate hashes are created for that value
     Then both hashes should be exactly the same
+
+  @negative
+  Scenario Outline: The API errors when creating a hash with an invalid payload
+    Given an invalid create hash payload that is <description>
+    When a hash is created for that value
+    Then the response status should be 'BAD_REQUEST'
+    And the response content should explain that the input is invalid
+
+    Examples:
+      | description           |
+      | empty                 |
+      | just a password value |
+
+  @negative
+  @BUG-4
+  Scenario Outline: The API errors when a non-existent hash is retrieved
+    Given an invalid job ID that is <description>
+    When the hash for that job ID is retrieved
+    Then the response status should be 'NOT_FOUND'
+
+    Examples:
+      | description           |
+      | a string              |
+      | a number              |

@@ -32,8 +32,11 @@ class HashServeClient(requests.Session):
 
         self.start()
 
-    def create_hash(self, password):
-        return self.post(f"{self.base_url}/hash", json={"password": password})
+    def create_hash(self, password=None, payload=None):
+        return self.post(
+            f"{self.base_url}/hash",
+            json={"password": password} if payload is None else payload,
+        )
 
     def get_hash(self, job_id):
         return self.get(f"{self.base_url}/hash/{job_id}")

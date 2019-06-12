@@ -18,7 +18,7 @@ Feature: Stats
       | 10         |
 
   @quarantined @BUG-2
-  @positive  
+  @positive
   Scenario Outline: The average time to create a hash is recorded accurately
     Given the average time for creating <hash-count> hashes
     When hash statistics are gathered

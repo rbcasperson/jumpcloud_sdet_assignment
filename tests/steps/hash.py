@@ -40,6 +40,38 @@ def step_get_job_id_after_delay(context, delay):
     time.sleep(int(delay))
 
 
+@given("an invalid create hash payload that is {description}")
+def step_get_invalid_payload(context, description):
+    context.payload = get_invalid_create_hash_payload(description)
+
+
+def get_invalid_create_hash_payload(description):
+    if description == "empty":
+        return ""
+    elif description == "just a password value":
+        return get_valid_password_value()
+    else:
+        raise ValueError(f"Invalid description: '{description}'")
+
+
+@given("an invalid job ID that is {description}")
+def step_get_invalid_job_id(context, description):
+    context.job_id = get_invalid_job_id(description)
+
+
+def get_invalid_job_id(description):
+    if description == "a string":
+        return "string"
+    elif description == "a number":
+        # This number is large enough to be confident the tests won't create that many hashes,
+        # but ideally this would dynamically figure out how many hashes have been created already
+        # and use a number higher than that.
+        # For the sake of time, I did not implement that logic in this assignment.
+        return 10000
+    else:
+        raise ValueError(f"Invalid description: '{description}'")
+
+
 ########
 # When #
 ########
@@ -47,7 +79,9 @@ def step_get_job_id_after_delay(context, delay):
 
 @when("a hash is created for that value")
 def step_create_hash(context):
-    context.response = context.client.create_hash(context.password)
+    password = getattr(context, "password", None)
+    payload = getattr(context, "payload", None)
+    context.response = context.client.create_hash(password=password, payload=payload)
 
 
 @when("the hash for that job ID is retrieved")
@@ -108,3 +142,8 @@ def validate_hash_values_are_the_same(client, job_ids):
     assert (
         len(unique_hash_strings) == 1
     ), f"The hashes are not exactly the same: {unique_hash_strings}"
+
+
+@then("the response content should explain that the input is invalid")
+def validate_response_content_says_invalid_input(context):
+    assert "Malformed Input" in str(context.response.content)
